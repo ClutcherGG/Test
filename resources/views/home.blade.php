@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         @if (Auth::check())
         <div class="col-md-4">
-            <div class="card">
+            <div class="card mb-4">
                 <div class="card-header">Токен доступа</div>
                 <div class="card-body">
                     <div class="mb-3 row">
@@ -26,6 +26,35 @@
                     </form>
                 </div>
             </div>
+            <div class="card">
+                <div class="card-header">Запрос</div>
+
+                <div class="card-body">
+                    <form method="POST" action="{{ route('api_send') }}">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="api_token" class="form-label">Токен</label>
+                            <input type="text" name="api_token" class="form-control" id="api_token" value="{{ Auth::user()->api_token }}">
+                            @if (Session::has('token_error'))
+                                <span class="invalid-feedback" style="display: block;" role="alert">
+                                    <strong>{{ Session::get('token_error') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                        <div class="mb-3">
+                          <label for="date" class="form-label">Дата</label>
+                          <input type="date" name="date" class="form-control" id="date" required>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-success w-100">
+                                    Отправить запрос
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+        </div>
         </div>
         @endif
         <div class="col-md-4">
@@ -177,41 +206,5 @@
                 </div>
         </div>
     </div>
-    @if (Auth::check())
-    <div class="row justify-content-center">
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-header">Запрос</div>
-
-                <div class="card-body">
-                    <form method="POST" action="{{ route('api_send') }}">
-                        @csrf
-                        <div class="mb-3">
-                            <label for="api_token" class="form-label">Токен</label>
-                            <input type="text" name="api_token" class="form-control" id="api_token" value="{{ Auth::user()->api_token }}">
-                            @if (Session::has('token_error'))
-                                <span class="invalid-feedback" style="display: block;" role="alert">
-                                    <strong>{{ Session::get('token_error') }}</strong>
-                                </span>
-                            @endif
-                        </div>
-                        <div class="mb-3">
-                          <label for="date" class="form-label">Дата</label>
-                          <input type="date" name="date" class="form-control" id="date" required>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <button type="submit" class="btn btn-success w-100">
-                                    Отправить запрос
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-        </div>
-        </div>
-        
-    </div>
-    @endif
 </div>
 @endsection
